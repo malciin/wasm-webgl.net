@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <RuntimeIdentifier>browser-wasm</RuntimeIdentifier>
+    <WasmMainJSPath>main.js</WasmMainJSPath>
+    <OutputType>Exe</OutputType>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>WasmWebGL</RootNamespace>
+    <PublishTrimmed>true</PublishTrimmed>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <WasmEmitSymbolMap>false</WasmEmitSymbolMap>
+    <InvariantTimezone>true</InvariantTimezone>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="WebGL.gen.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WebGL.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <WasmExtraFilesToDeploy Include="index.html" />
+    <WasmExtraFilesToDeploy Include="main.js" />
+    <WasmExtraFilesToDeploy Include="webgl-bindings.js" />
+    <WasmExtraFilesToDeploy Include="Imgs/*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="webgl-bindings.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>webgl-bindings.js</LastGenOutput>
+    </None>
+    <None Update="webgl-bindings.js">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>webgl-bindings.tt</DependentUpon>
+    </None>
+    <None Update="WebGL.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>WebGL.gen.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="WebGL.gen.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WebGL.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

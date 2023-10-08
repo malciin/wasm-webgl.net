@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--  Licensed to the .NET Foundation under one or more agreements. -->
+<!-- The .NET Foundation licenses this file to you under the MIT license. -->
+<html>
+
+<head>
+    <title>WasmWebGL</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="modulepreload" href="./main.js" />
+    <link rel="modulepreload" href="./dotnet.js" />
+    <style>
+        html, body {
+            background-color: black;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        canvas {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .logos {
+            position: absolute;
+            top: 40px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            z-index: 1;
+            position: relative;
+        }
+
+        .logos img {
+            height: 50px;
+        }
+
+        .github {
+            z-index: 1;
+            color: white;
+            position: absolute;
+            top: 16px;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+
+        .github a {
+            color: white;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="logos">
+        <img src="./dotnet.svg" />
+        <img src="./webassembly.svg" />
+        <img src="./webgl.svg" />
+    </section>
+
+    <section class="github">
+        <a href="https://github.com/malciin/wasm-webgl.net">https://github.com/malciin/wasm-webgl.net</a>
+    </section>
+
+    <script type='module' src="./main.js"></script>
+</body>
+
+</html>
