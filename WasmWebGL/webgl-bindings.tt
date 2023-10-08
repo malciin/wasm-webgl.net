@@ -22,6 +22,8 @@ var methods = xmlDocument.Root.Element("methods").Descendants("method");
 
 let context = null;
 let webGlDataIndex = -1;
+// not sure is it safe to send JS objects like WebGLBuffer back to .NET so
+// for now those objects are stored in webGlData and .NET receive only a proper index to that lookup. This kinda works simmilarly to openGL.
 const webGlData = {};
 const uniformLocationsToWebGlDataIndex = {};
 

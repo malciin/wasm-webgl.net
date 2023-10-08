@@ -1,397 +1,398 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <spec>
-	<methods>
-		<method name="InitCanvasWebGL">
-			<param type="int" name="width" />
-			<param type="int" name="height" />
-			<jsCode>
-				const canvas = document.createElement('canvas');
-				canvas.width = width;
-				canvas.height = height;
+  <methods>
+    <method name="InitCanvasWebGL">
+      <param type="int" name="width" />
+      <param type="int" name="height" />
+      <jsCode>
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
 
-				document.body.appendChild(canvas);
+        document.body.appendChild(canvas);
 
-				context = canvas.getContext('webgl2');
-			</jsCode>
-		</method>
-		<method name="glViewport">
-			<param type="int" name="x" />
-			<param type="int" name="y"  />
-			<param type="int" name="width" />
-			<param type="int" name="height" />
-		</method>
-		<method name="glClearColor">
-			<param type="float" name="r" />
-			<param type="float" name="g" />
-			<param type="float" name="b" />
-			<param type="float" name="a" />
-		</method>
-		<method name="glClear">
-			<param type="int" name="flags" />
-		</method>
-		<method name="glEnable">
-			<param type="int" name="mode" />
-		</method>
+        context = canvas.getContext('webgl2');
+      </jsCode>
+    </method>
+    <method name="glViewport">
+      <param type="int" name="x" />
+      <param type="int" name="y"  />
+      <param type="int" name="width" />
+      <param type="int" name="height" />
+    </method>
+    <method name="glClearColor">
+      <param type="float" name="r" />
+      <param type="float" name="g" />
+      <param type="float" name="b" />
+      <param type="float" name="a" />
+    </method>
+    <method name="glClear">
+      <param type="int" name="flags" />
+    </method>
+    <method name="glEnable">
+      <param type="int" name="mode" />
+    </method>
 
-		<method name="glGenVertexArrays" return="int">
-			<jsCode>
-				webGlDataIndex++;
-				webGlData[webGlDataIndex] = context.createVertexArray();
-				return webGlDataIndex;
-			</jsCode>
-		</method>
+    <method name="glGenVertexArrays" return="int">
+      <jsCode>
+        webGlDataIndex++;
+        webGlData[webGlDataIndex] = context.createVertexArray();
+        return webGlDataIndex;
+      </jsCode>
+    </method>
 
-		<method name="glBindVertexArray">
-			<param type="int" name="array"></param>
-			<jsCode>
-				context.bindVertexArray(webGlData[array]);
-			</jsCode>
-		</method>
+    <method name="glBindVertexArray">
+      <param type="int" name="array"></param>
+      <jsCode>
+        context.bindVertexArray(webGlData[array]);
+      </jsCode>
+    </method>
 
-		<method name="glVertexAttribPointer">
-			<param type="int" name="index"></param>
-			<param type="int" name="size"></param>
-			<param type="int" name="type"></param>
-			<param type="int" name="normalized"></param>
-			<param type="int" name="stride"></param>
-			<param type="int" name="offset"></param>
-		</method>
+    <method name="glVertexAttribPointer">
+      <param type="int" name="index"></param>
+      <param type="int" name="size"></param>
+      <param type="int" name="type"></param>
+      <param type="int" name="normalized"></param>
+      <param type="int" name="stride"></param>
+      <param type="int" name="offset"></param>
+    </method>
 
-		<method name="glEnableVertexAttribArray">
-			<param type="int" name="index" />
-		</method>
+    <method name="glEnableVertexAttribArray">
+      <param type="int" name="index" />
+    </method>
 
-		<method name="glGenBuffers" return="int">
-			<jsCode>
-				webGlDataIndex++;
-				webGlData[webGlDataIndex] = context.createBuffer();
-				return webGlDataIndex;
-			</jsCode>
-		</method>
+    <method name="glGenBuffers" return="int">
+      <jsCode>
+        webGlDataIndex++;
+        webGlData[webGlDataIndex] = context.createBuffer();
+        return webGlDataIndex;
+      </jsCode>
+    </method>
 
-		<method name="glBindBuffer">
-			<param type="int" name="target"></param>
-			<param type="int" name="buffer"></param>
-			<jsCode>
-				context.bindBuffer(target, webGlData[buffer]);
-			</jsCode>
-		</method>
+    <method name="glBindBuffer">
+      <param type="int" name="target"></param>
+      <param type="int" name="buffer"></param>
+      <jsCode>
+        context.bindBuffer(target, webGlData[buffer]);
+      </jsCode>
+    </method>
 
-		<method name="glBufferData">
-			<param type="int" name="target" />
-			<param type="int" name="size" />
-			<param type="string" name="jsonData" />
-			<param type="int" name="usage" />
-			<param type="int" name="type" />
-			<jsCode>
-				const data = JSON.parse(jsonData);
-				let typed = null;
+    <method name="glBufferData">
+      <param type="int" name="target" />
+      <param type="int" name="size" />
+      <param type="string" name="jsonData" />
+      <param type="int" name="usage" />
+      <param type="int" name="type" />
+      <jsCode>
+        const data = JSON.parse(jsonData);
+        let typed = null;
 
-				if (type === context.FLOAT) {
-				typed = new Float32Array(data);
-				} else if (type === context.UNSIGNED_BYTE) {
-				typed = new Uint8Array(data);
-				} else if (type === context.UNSIGNED_INT) {
-				typed = new Uint32Array(data);
-				} else {
-				console.log('UNKNOWN type')
-				}
-				context.bufferData(target, typed, usage);
-			</jsCode>
-		</method>
+        if (type === context.FLOAT) {
+        typed = new Float32Array(data);
+        } else if (type === context.UNSIGNED_BYTE) {
+        typed = new Uint8Array(data);
+        } else if (type === context.UNSIGNED_INT) {
+        typed = new Uint32Array(data);
+        } else {
+        console.log('UNKNOWN type')
+        }
+        context.bufferData(target, typed, usage);
+      </jsCode>
+    </method>
 
-		<method name="glCreateShader" return="int">
-			<param type="int" name="type" />
-			<jsCode>
-				webGlDataIndex++;
-				webGlData[webGlDataIndex] = context.createShader(type);
-				return webGlDataIndex;
-			</jsCode>
-		</method>
+    <method name="glCreateShader" return="int">
+      <param type="int" name="type" />
+      <jsCode>
+        webGlDataIndex++;
+        webGlData[webGlDataIndex] = context.createShader(type);
+        return webGlDataIndex;
+      </jsCode>
+    </method>
 
-		<method name="glShaderSource">
-			<param type="int" name="shader"></param>
-			<param type="string" name="source"></param>
-			<jsCode>
-				context.shaderSource(webGlData[shader], source);
-			</jsCode>
-		</method>
+    <method name="glShaderSource">
+      <param type="int" name="shader"></param>
+      <param type="string" name="source"></param>
+      <jsCode>
+        context.shaderSource(webGlData[shader], source);
+      </jsCode>
+    </method>
 
-		<method name="glCompileShader">
-			<param type="int" name="shader"></param>
-			<jsCode>
-				context.compileShader(webGlData[shader]);
-			</jsCode>
-		</method>
+    <method name="glCompileShader">
+      <param type="int" name="shader"></param>
+      <jsCode>
+        context.compileShader(webGlData[shader]);
+      </jsCode>
+    </method>
 
-		<method name="glGetShaderParameter" return="bool">
-			<param type="int" name="shader"></param>
-			<param type="int" name="pname"></param>
-			<jsCode>
-				return context.getShaderParameter(webGlData[shader], pname);
-			</jsCode>
-		</method>
+    <method name="glGetShaderParameter" return="bool">
+      <param type="int" name="shader"></param>
+      <param type="int" name="pname"></param>
+      <jsCode>
+        return context.getShaderParameter(webGlData[shader], pname);
+      </jsCode>
+    </method>
 
-		<method name="glGetShaderInfoLog" return="string">
-			<param type="int" name="shader"></param>
-			<jsCode>
-				return context.getShaderInfoLog(webGlData[shader]);
-			</jsCode>
-		</method>
+    <method name="glGetShaderInfoLog" return="string">
+      <param type="int" name="shader"></param>
+      <jsCode>
+        return context.getShaderInfoLog(webGlData[shader]);
+      </jsCode>
+    </method>
 
-		<method name="glCreateProgram" return="int">
-			<jsCode>
-				webGlDataIndex++;
-				webGlData[webGlDataIndex] = context.createProgram();
-				return webGlDataIndex;
-			</jsCode>
-		</method>
+    <method name="glCreateProgram" return="int">
+      <jsCode>
+        webGlDataIndex++;
+        webGlData[webGlDataIndex] = context.createProgram();
+        return webGlDataIndex;
+      </jsCode>
+    </method>
 
-		<method name="glAttachShader">
-			<param type="int" name="program" />
-			<param type="int" name="shader" />
+    <method name="glAttachShader">
+      <param type="int" name="program" />
+      <param type="int" name="shader" />
 
-			<jsCode>
-				context.attachShader(webGlData[program], webGlData[shader]);
-			</jsCode>
-		</method>
+      <jsCode>
+        context.attachShader(webGlData[program], webGlData[shader]);
+      </jsCode>
+    </method>
 
-		<method name="glLinkProgram">
-			<param type="int" name="program" />
+    <method name="glLinkProgram">
+      <param type="int" name="program" />
 
-			<jsCode>
-				context.linkProgram(webGlData[program]);
-			</jsCode>
-		</method>
+      <jsCode>
+        context.linkProgram(webGlData[program]);
+      </jsCode>
+    </method>
 
-		<method name="glGetUniformLocation" return="int">
-			<param type="int" name="program" />
-			<param type="string" name="uniformName" />
+    <method name="glGetUniformLocation" return="int">
+      <param type="int" name="program" />
+      <param type="string" name="uniformName" />
 
-			<jsCode>
-				const locationKey = `${program}:${uniformName}`;
-				const existingIndex = uniformLocationsToWebGlDataIndex[locationKey];
+      <jsCode>
+        const locationKey = `${program}:${uniformName}`;
+        const existingIndex = uniformLocationsToWebGlDataIndex[locationKey];
 
-				if (existingIndex !== undefined) {
-				return existingIndex;
-				}
+        if (existingIndex !== undefined) {
+        return existingIndex;
+        }
 
-				webGlDataIndex++;
-				webGlData[webGlDataIndex] = context.getUniformLocation(webGlData[program], uniformName);
-				uniformLocationsToWebGlDataIndex[locationKey] = webGlDataIndex;
+        webGlDataIndex++;
+        webGlData[webGlDataIndex] = context.getUniformLocation(webGlData[program], uniformName);
+        uniformLocationsToWebGlDataIndex[locationKey] = webGlDataIndex;
 
-				return webGlDataIndex;
-			</jsCode>
-		</method>
+        return webGlDataIndex;
+      </jsCode>
+    </method>
 
-		<method name="glUniformMatrix4fv">
-			<param type="int" name="uniformLocation" />
-			<param type="string" name="jsonData" />
-			<param type="bool" name="transpose" />
+    <method name="glUniformMatrix4fv">
+      <param type="int" name="uniformLocation" />
+      <param type="string" name="jsonData" />
+      <param type="bool" name="transpose" />
 
-			<jsCode>
-				context.uniformMatrix4fv(
-				webGlData[uniformLocation],
-				transpose,
-				new Float32Array(JSON.parse(jsonData)));
-			</jsCode>
-		</method>
+      <jsCode>
+        context.uniformMatrix4fv(
+        webGlData[uniformLocation],
+        transpose,
+        new Float32Array(JSON.parse(jsonData)));
+      </jsCode>
+    </method>
 
-		<method name="glDrawArrays">
-			<param type="int" name="mode" />
-			<param type="int" name="first" />
-			<param type="int" name="count" />
-		</method>
+    <method name="glDrawArrays">
+      <param type="int" name="mode" />
+      <param type="int" name="first" />
+      <param type="int" name="count" />
+    </method>
 
-		<method name="glDrawElements">
-			<param type="int" name="mode" />
-			<param type="int" name="count" />
-			<param type="int" name="type" />
-			<param type="int" name="offset" />
-		</method>
+    <method name="glDrawElements">
+      <param type="int" name="mode" />
+      <param type="int" name="count" />
+      <param type="int" name="type" />
+      <param type="int" name="offset" />
+    </method>
 
-		<method name="glUseProgram">
-			<param type="int" name="program" />
+    <method name="glUseProgram">
+      <param type="int" name="program" />
 
-			<jsCode>
-				context.useProgram(webGlData[program]);
-			</jsCode>
-		</method>
-	</methods>
+      <jsCode>
+        context.useProgram(webGlData[program]);
+      </jsCode>
+    </method>
+  </methods>
 
-	<constants>
-		<constant name="GL_COLOR_BUFFER_BIT" value="0x4000" />
-		<constant name="GL_POINTS" value="0x0000" />
-		<constant name="GL_LINES" value="0x0001" />
-		<constant name="GL_LINE_LOOP" value="0x0002" />
-		<constant name="GL_LINE_STRIP" value="0x0003" />
-		<constant name="GL_TRIANGLES" value="0x0004" />
-		<constant name="GL_TRIANGLE_STRIP" value="0x0005" />
-		<constant name="GL_TRIANGLE_FAN" value="0x0006" />
-		<constant name="GL_MODELVIEW" value="0x1700" />
-		<constant name="GL_PROJECTION" value="0x1701" />
-		<constant name="GL_VERSION" value="0x1F02" />
-		<constant name="GL_TRUE" value="1" />
-		<constant name="GL_FALSE" value="0" />
-		<constant name="GL_FRAGMENT_SHADER" value="0x8B30" />
-		<constant name="GL_VERTEX_SHADER" value="0x8B31" />
-		<constant name="GL_COMPILE_STATUS" value="0x8B81" />
-		<constant name="GL_LINK_STATUS" value="0x8B82" />
-		<constant name="GL_ARRAY_BUFFER" value="0x8892" />
-		<constant name="GL_STATIC_DRAW" value="0x88E4" />
-		<constant name="GL_DYNAMIC_DRAW" value="0x88E8" />
-		<constant name="GL_FLOAT" value="0x1406" />
-		<constant name="GL_UNSIGNED_INT" value="0x1405" />
-		<constant name="GL_INT" value="0x1404" />
-		<constant name="GL_DEBUG_OUTPUT" value="0x92E0" />
-		<constant name="GL_DEBUG_OUTPUT_SYNCHRONOUS" value="0x8242" />
-		<constant name="GL_ELEMENT_ARRAY_BUFFER" value="0x8893" />
-		<constant name="GL_ELEMENT_ARRAY_BUFFER_BINDING" value="0x8895" />
-		<constant name="GL_LINE" value="0x1B01" />
-		<constant name="GL_FILL" value="0x1B02" />
-		<constant name="GL_FRONT_AND_BACK" value="0x0408" />
-		<constant name="GL_DEBUG_SEVERITY_HIGH" value="0x9146" />
-		<constant name="GL_DEBUG_SEVERITY_LOW" value="0x9148" />
-		<constant name="GL_DEBUG_SEVERITY_MEDIUM" value="0x9147" />
-		<constant name="GL_DEBUG_SEVERITY_NOTIFICATION" value="0x826B" />
-		<constant name="GL_TEXTURE_2D" value="0x0DE1" />
-		<constant name="GL_RGB" value="0x1907" />
-		<constant name="GL_RGBA" value="0x1908" />
-		<constant name="GL_UNSIGNED_BYTE" value="0x1401" />
-		<constant name="GL_TEXTURE_WRAP_S" value="0x2802" />
-		<constant name="GL_TEXTURE_WRAP_T" value="0x2803" />
-		<constant name="GL_TEXTURE_MIN_FILTER" value="0x2801" />
-		<constant name="GL_TEXTURE_MAG_FILTER" value="0x2800" />
-		<constant name="GL_REPEAT" value="0x2901" />
-		<constant name="GL_LINEAR" value="0x2601" />
-		<constant name="GL_LINEAR_MIPMAP_LINEAR" value="0x2703" />
-		<constant name="GL_NEAREST" value="0x2600" />
-		<constant name="GL_NEAREST_MIPMAP_LINEAR" value="0x2702" />
-		<constant name="GL_NEAREST_MIPMAP_NEAREST" value="0x2700" />
-		<constant name="GL_TEXTURE0" value="0x84C0" />
-		<constant name="GL_TEXTURE1" value="0x84C1" />
-		<constant name="GL_TEXTURE2" value="0x84C2" />
-		<constant name="GL_TEXTURE3" value="0x84C3" />
-		<constant name="GL_TEXTURE4" value="0x84C4" />
-		<constant name="GL_TEXTURE5" value="0x84C5" />
-		<constant name="GL_TEXTURE6" value="0x84C6" />
-		<constant name="GL_TEXTURE7" value="0x84C7" />
-		<constant name="GL_TEXTURE8" value="0x84C8" />
-		<constant name="GL_TEXTURE9" value="0x84C9" />
-		<constant name="GL_TEXTURE10" value="0x84CA" />
-		<constant name="GL_TEXTURE11" value="0x84CB" />
-		<constant name="GL_TEXTURE12" value="0x84CC" />
-		<constant name="GL_TEXTURE13" value="0x84CD" />
-		<constant name="GL_TEXTURE14" value="0x84CE" />
-		<constant name="GL_TEXTURE15" value="0x84CF" />
-		<constant name="GL_TEXTURE16" value="0x84D0" />
-		<constant name="GL_TEXTURE17" value="0x84D1" />
-		<constant name="GL_TEXTURE18" value="0x84D2" />
-		<constant name="GL_TEXTURE19" value="0x84D3" />
-		<constant name="GL_TEXTURE20" value="0x84D4" />
-		<constant name="GL_TEXTURE21" value="0x84D5" />
-		<constant name="GL_TEXTURE22" value="0x84D6" />
-		<constant name="GL_TEXTURE23" value="0x84D7" />
-		<constant name="GL_TEXTURE24" value="0x84D8" />
-		<constant name="GL_TEXTURE25" value="0x84D9" />
-		<constant name="GL_TEXTURE26" value="0x84DA" />
-		<constant name="GL_TEXTURE27" value="0x84DB" />
-		<constant name="GL_TEXTURE28" value="0x84DC" />
-		<constant name="GL_TEXTURE29" value="0x84DD" />
-		<constant name="GL_TEXTURE30" value="0x84DE" />
-		<constant name="GL_TEXTURE31" value="0x84DF" />
-		<constant name="GL_FRAMEBUFFER" value="0x8D40" />
-		<constant name="GL_FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE" value="0x8215" />
-		<constant name="GL_FRAMEBUFFER_ATTACHMENT_BLUE_SIZE" value="0x8214" />
-		<constant name="GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING" value="0x8210" />
-		<constant name="GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE" value="0x8211" />
-		<constant name="GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE" value="0x8216" />
-		<constant name="GL_FRAMEBUFFER_ATTACHMENT_GREEN_SIZE" value="0x8213" />
-		<constant name="GL_FRAMEBUFFER_ATTACHMENT_LAYERED" value="0x8DA7" />
-		<constant name="GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME" value="0x8CD1" />
-		<constant name="GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE" value="0x8CD0" />
-		<constant name="GL_FRAMEBUFFER_ATTACHMENT_RED_SIZE" value="0x8212" />
-		<constant name="GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE" value="0x8217" />
-		<constant name="GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE" value="0x8CD3" />
-		<constant name="GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER" value="0x8CD4" />
-		<constant name="GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL" value="0x8CD2" />
-		<constant name="GL_FRAMEBUFFER_BINDING" value="0x8CA6" />
-		<constant name="GL_FRAMEBUFFER_COMPLETE" value="0x8CD5" />
-		<constant name="GL_FRAMEBUFFER_DEFAULT" value="0x8218" />
-		<constant name="GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT" value="0x8CD6" />
-		<constant name="GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER" value="0x8CDB" />
-		<constant name="GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS" value="0x8DA8" />
-		<constant name="GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT" value="0x8CD7" />
-		<constant name="GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE" value="0x8D56" />
-		<constant name="GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER" value="0x8CDC" />
-		<constant name="GL_FRAMEBUFFER_SRGB" value="0x8DB9" />
-		<constant name="GL_FRAMEBUFFER_UNDEFINED" value="0x8219" />
-		<constant name="GL_FRAMEBUFFER_UNSUPPORTED" value="0x8CDD" />
-		<constant name="GL_COLOR_ATTACHMENT0" value="0x8CE0" />
-		<constant name="GL_COLOR_ATTACHMENT1" value="0x8CE1" />
-		<constant name="GL_COLOR_ATTACHMENT10" value="0x8CEA" />
-		<constant name="GL_COLOR_ATTACHMENT11" value="0x8CEB" />
-		<constant name="GL_COLOR_ATTACHMENT12" value="0x8CEC" />
-		<constant name="GL_COLOR_ATTACHMENT13" value="0x8CED" />
-		<constant name="GL_COLOR_ATTACHMENT14" value="0x8CEE" />
-		<constant name="GL_COLOR_ATTACHMENT15" value="0x8CEF" />
-		<constant name="GL_COLOR_ATTACHMENT16" value="0x8CF0" />
-		<constant name="GL_COLOR_ATTACHMENT17" value="0x8CF1" />
-		<constant name="GL_COLOR_ATTACHMENT18" value="0x8CF2" />
-		<constant name="GL_COLOR_ATTACHMENT19" value="0x8CF3" />
-		<constant name="GL_COLOR_ATTACHMENT2" value="0x8CE2" />
-		<constant name="GL_COLOR_ATTACHMENT20" value="0x8CF4" />
-		<constant name="GL_COLOR_ATTACHMENT21" value="0x8CF5" />
-		<constant name="GL_COLOR_ATTACHMENT22" value="0x8CF6" />
-		<constant name="GL_COLOR_ATTACHMENT23" value="0x8CF7" />
-		<constant name="GL_COLOR_ATTACHMENT24" value="0x8CF8" />
-		<constant name="GL_COLOR_ATTACHMENT25" value="0x8CF9" />
-		<constant name="GL_COLOR_ATTACHMENT26" value="0x8CFA" />
-		<constant name="GL_COLOR_ATTACHMENT27" value="0x8CFB" />
-		<constant name="GL_COLOR_ATTACHMENT28" value="0x8CFC" />
-		<constant name="GL_COLOR_ATTACHMENT29" value="0x8CFD" />
-		<constant name="GL_COLOR_ATTACHMENT3" value="0x8CE3" />
-		<constant name="GL_COLOR_ATTACHMENT30" value="0x8CFE" />
-		<constant name="GL_COLOR_ATTACHMENT31" value="0x8CFF" />
-		<constant name="GL_COLOR_ATTACHMENT4" value="0x8CE4" />
-		<constant name="GL_COLOR_ATTACHMENT5" value="0x8CE5" />
-		<constant name="GL_COLOR_ATTACHMENT6" value="0x8CE6" />
-		<constant name="GL_COLOR_ATTACHMENT7" value="0x8CE7" />
-		<constant name="GL_COLOR_ATTACHMENT8" value="0x8CE8" />
-		<constant name="GL_COLOR_ATTACHMENT9" value="0x8CE9" />
-		<constant name="GL_RENDERBUFFER" value="0x8D41" />
-		<constant name="GL_RENDERBUFFER_ALPHA_SIZE" value="0x8D53" />
-		<constant name="GL_RENDERBUFFER_BINDING" value="0x8CA7" />
-		<constant name="GL_RENDERBUFFER_BLUE_SIZE" value="0x8D52" />
-		<constant name="GL_RENDERBUFFER_DEPTH_SIZE" value="0x8D54" />
-		<constant name="GL_RENDERBUFFER_GREEN_SIZE" value="0x8D51" />
-		<constant name="GL_RENDERBUFFER_HEIGHT" value="0x8D43" />
-		<constant name="GL_RENDERBUFFER_INTERNAL_FORMAT" value="0x8D44" />
-		<constant name="GL_RENDERBUFFER_RED_SIZE" value="0x8D50" />
-		<constant name="GL_RENDERBUFFER_SAMPLES" value="0x8CAB" />
-		<constant name="GL_RENDERBUFFER_STENCIL_SIZE" value="0x8D55" />
-		<constant name="GL_RENDERBUFFER_WIDTH" value="0x8D42" />
-		<constant name="GL_DEPTH" value="0x1801" />
-		<constant name="GL_DEPTH24_STENCIL8" value="0x88F0" />
-		<constant name="GL_DEPTH32F_STENCIL8" value="0x8CAD" />
-		<constant name="GL_DEPTH_ATTACHMENT" value="0x8D00" />
-		<constant name="GL_DEPTH_BIAS" value="0x0D1F" />
-		<constant name="GL_DEPTH_BITS" value="0x0D56" />
-		<constant name="GL_DEPTH_BUFFER_BIT" value="0x00000100" />
-		<constant name="GL_DEPTH_CLAMP" value="0x864F" />
-		<constant name="GL_DEPTH_CLEAR_VALUE" value="0x0B73" />
-		<constant name="GL_DEPTH_COMPONENT" value="0x1902" />
-		<constant name="GL_DEPTH_COMPONENT16" value="0x81A5" />
-		<constant name="GL_DEPTH_COMPONENT24" value="0x81A6" />
-		<constant name="GL_DEPTH_COMPONENT32" value="0x81A7" />
-		<constant name="GL_DEPTH_COMPONENT32F" value="0x8CAC" />
-		<constant name="GL_DEPTH_FUNC" value="0x0B74" />
-		<constant name="GL_DEPTH_RANGE" value="0x0B70" />
-		<constant name="GL_DEPTH_SCALE" value="0x0D1E" />
-		<constant name="GL_DEPTH_STENCIL" value="0x84F9" />
-		<constant name="GL_DEPTH_STENCIL_ATTACHMENT" value="0x821A" />
-		<constant name="GL_DEPTH_TEST" value="0x0B71" />
-		<constant name="GL_DEPTH_TEXTURE_MODE" value="0x884B" />
-		<constant name="GL_DEPTH_WRITEMASK" value="0x0B72" />
-	</constants>
+  <constants>
+    <!-- Most those constants are not needed for this project but I've just transformed whole #define segments from gl.h -->
+    <constant name="GL_COLOR_BUFFER_BIT" value="0x4000" />
+    <constant name="GL_POINTS" value="0x0000" />
+    <constant name="GL_LINES" value="0x0001" />
+    <constant name="GL_LINE_LOOP" value="0x0002" />
+    <constant name="GL_LINE_STRIP" value="0x0003" />
+    <constant name="GL_TRIANGLES" value="0x0004" />
+    <constant name="GL_TRIANGLE_STRIP" value="0x0005" />
+    <constant name="GL_TRIANGLE_FAN" value="0x0006" />
+    <constant name="GL_MODELVIEW" value="0x1700" />
+    <constant name="GL_PROJECTION" value="0x1701" />
+    <constant name="GL_VERSION" value="0x1F02" />
+    <constant name="GL_TRUE" value="1" />
+    <constant name="GL_FALSE" value="0" />
+    <constant name="GL_FRAGMENT_SHADER" value="0x8B30" />
+    <constant name="GL_VERTEX_SHADER" value="0x8B31" />
+    <constant name="GL_COMPILE_STATUS" value="0x8B81" />
+    <constant name="GL_LINK_STATUS" value="0x8B82" />
+    <constant name="GL_ARRAY_BUFFER" value="0x8892" />
+    <constant name="GL_STATIC_DRAW" value="0x88E4" />
+    <constant name="GL_DYNAMIC_DRAW" value="0x88E8" />
+    <constant name="GL_FLOAT" value="0x1406" />
+    <constant name="GL_UNSIGNED_INT" value="0x1405" />
+    <constant name="GL_INT" value="0x1404" />
+    <constant name="GL_DEBUG_OUTPUT" value="0x92E0" />
+    <constant name="GL_DEBUG_OUTPUT_SYNCHRONOUS" value="0x8242" />
+    <constant name="GL_ELEMENT_ARRAY_BUFFER" value="0x8893" />
+    <constant name="GL_ELEMENT_ARRAY_BUFFER_BINDING" value="0x8895" />
+    <constant name="GL_LINE" value="0x1B01" />
+    <constant name="GL_FILL" value="0x1B02" />
+    <constant name="GL_FRONT_AND_BACK" value="0x0408" />
+    <constant name="GL_DEBUG_SEVERITY_HIGH" value="0x9146" />
+    <constant name="GL_DEBUG_SEVERITY_LOW" value="0x9148" />
+    <constant name="GL_DEBUG_SEVERITY_MEDIUM" value="0x9147" />
+    <constant name="GL_DEBUG_SEVERITY_NOTIFICATION" value="0x826B" />
+    <constant name="GL_TEXTURE_2D" value="0x0DE1" />
+    <constant name="GL_RGB" value="0x1907" />
+    <constant name="GL_RGBA" value="0x1908" />
+    <constant name="GL_UNSIGNED_BYTE" value="0x1401" />
+    <constant name="GL_TEXTURE_WRAP_S" value="0x2802" />
+    <constant name="GL_TEXTURE_WRAP_T" value="0x2803" />
+    <constant name="GL_TEXTURE_MIN_FILTER" value="0x2801" />
+    <constant name="GL_TEXTURE_MAG_FILTER" value="0x2800" />
+    <constant name="GL_REPEAT" value="0x2901" />
+    <constant name="GL_LINEAR" value="0x2601" />
+    <constant name="GL_LINEAR_MIPMAP_LINEAR" value="0x2703" />
+    <constant name="GL_NEAREST" value="0x2600" />
+    <constant name="GL_NEAREST_MIPMAP_LINEAR" value="0x2702" />
+    <constant name="GL_NEAREST_MIPMAP_NEAREST" value="0x2700" />
+    <constant name="GL_TEXTURE0" value="0x84C0" />
+    <constant name="GL_TEXTURE1" value="0x84C1" />
+    <constant name="GL_TEXTURE2" value="0x84C2" />
+    <constant name="GL_TEXTURE3" value="0x84C3" />
+    <constant name="GL_TEXTURE4" value="0x84C4" />
+    <constant name="GL_TEXTURE5" value="0x84C5" />
+    <constant name="GL_TEXTURE6" value="0x84C6" />
+    <constant name="GL_TEXTURE7" value="0x84C7" />
+    <constant name="GL_TEXTURE8" value="0x84C8" />
+    <constant name="GL_TEXTURE9" value="0x84C9" />
+    <constant name="GL_TEXTURE10" value="0x84CA" />
+    <constant name="GL_TEXTURE11" value="0x84CB" />
+    <constant name="GL_TEXTURE12" value="0x84CC" />
+    <constant name="GL_TEXTURE13" value="0x84CD" />
+    <constant name="GL_TEXTURE14" value="0x84CE" />
+    <constant name="GL_TEXTURE15" value="0x84CF" />
+    <constant name="GL_TEXTURE16" value="0x84D0" />
+    <constant name="GL_TEXTURE17" value="0x84D1" />
+    <constant name="GL_TEXTURE18" value="0x84D2" />
+    <constant name="GL_TEXTURE19" value="0x84D3" />
+    <constant name="GL_TEXTURE20" value="0x84D4" />
+    <constant name="GL_TEXTURE21" value="0x84D5" />
+    <constant name="GL_TEXTURE22" value="0x84D6" />
+    <constant name="GL_TEXTURE23" value="0x84D7" />
+    <constant name="GL_TEXTURE24" value="0x84D8" />
+    <constant name="GL_TEXTURE25" value="0x84D9" />
+    <constant name="GL_TEXTURE26" value="0x84DA" />
+    <constant name="GL_TEXTURE27" value="0x84DB" />
+    <constant name="GL_TEXTURE28" value="0x84DC" />
+    <constant name="GL_TEXTURE29" value="0x84DD" />
+    <constant name="GL_TEXTURE30" value="0x84DE" />
+    <constant name="GL_TEXTURE31" value="0x84DF" />
+    <constant name="GL_FRAMEBUFFER" value="0x8D40" />
+    <constant name="GL_FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE" value="0x8215" />
+    <constant name="GL_FRAMEBUFFER_ATTACHMENT_BLUE_SIZE" value="0x8214" />
+    <constant name="GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING" value="0x8210" />
+    <constant name="GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE" value="0x8211" />
+    <constant name="GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE" value="0x8216" />
+    <constant name="GL_FRAMEBUFFER_ATTACHMENT_GREEN_SIZE" value="0x8213" />
+    <constant name="GL_FRAMEBUFFER_ATTACHMENT_LAYERED" value="0x8DA7" />
+    <constant name="GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME" value="0x8CD1" />
+    <constant name="GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE" value="0x8CD0" />
+    <constant name="GL_FRAMEBUFFER_ATTACHMENT_RED_SIZE" value="0x8212" />
+    <constant name="GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE" value="0x8217" />
+    <constant name="GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE" value="0x8CD3" />
+    <constant name="GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER" value="0x8CD4" />
+    <constant name="GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL" value="0x8CD2" />
+    <constant name="GL_FRAMEBUFFER_BINDING" value="0x8CA6" />
+    <constant name="GL_FRAMEBUFFER_COMPLETE" value="0x8CD5" />
+    <constant name="GL_FRAMEBUFFER_DEFAULT" value="0x8218" />
+    <constant name="GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT" value="0x8CD6" />
+    <constant name="GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER" value="0x8CDB" />
+    <constant name="GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS" value="0x8DA8" />
+    <constant name="GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT" value="0x8CD7" />
+    <constant name="GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE" value="0x8D56" />
+    <constant name="GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER" value="0x8CDC" />
+    <constant name="GL_FRAMEBUFFER_SRGB" value="0x8DB9" />
+    <constant name="GL_FRAMEBUFFER_UNDEFINED" value="0x8219" />
+    <constant name="GL_FRAMEBUFFER_UNSUPPORTED" value="0x8CDD" />
+    <constant name="GL_COLOR_ATTACHMENT0" value="0x8CE0" />
+    <constant name="GL_COLOR_ATTACHMENT1" value="0x8CE1" />
+    <constant name="GL_COLOR_ATTACHMENT10" value="0x8CEA" />
+    <constant name="GL_COLOR_ATTACHMENT11" value="0x8CEB" />
+    <constant name="GL_COLOR_ATTACHMENT12" value="0x8CEC" />
+    <constant name="GL_COLOR_ATTACHMENT13" value="0x8CED" />
+    <constant name="GL_COLOR_ATTACHMENT14" value="0x8CEE" />
+    <constant name="GL_COLOR_ATTACHMENT15" value="0x8CEF" />
+    <constant name="GL_COLOR_ATTACHMENT16" value="0x8CF0" />
+    <constant name="GL_COLOR_ATTACHMENT17" value="0x8CF1" />
+    <constant name="GL_COLOR_ATTACHMENT18" value="0x8CF2" />
+    <constant name="GL_COLOR_ATTACHMENT19" value="0x8CF3" />
+    <constant name="GL_COLOR_ATTACHMENT2" value="0x8CE2" />
+    <constant name="GL_COLOR_ATTACHMENT20" value="0x8CF4" />
+    <constant name="GL_COLOR_ATTACHMENT21" value="0x8CF5" />
+    <constant name="GL_COLOR_ATTACHMENT22" value="0x8CF6" />
+    <constant name="GL_COLOR_ATTACHMENT23" value="0x8CF7" />
+    <constant name="GL_COLOR_ATTACHMENT24" value="0x8CF8" />
+    <constant name="GL_COLOR_ATTACHMENT25" value="0x8CF9" />
+    <constant name="GL_COLOR_ATTACHMENT26" value="0x8CFA" />
+    <constant name="GL_COLOR_ATTACHMENT27" value="0x8CFB" />
+    <constant name="GL_COLOR_ATTACHMENT28" value="0x8CFC" />
+    <constant name="GL_COLOR_ATTACHMENT29" value="0x8CFD" />
+    <constant name="GL_COLOR_ATTACHMENT3" value="0x8CE3" />
+    <constant name="GL_COLOR_ATTACHMENT30" value="0x8CFE" />
+    <constant name="GL_COLOR_ATTACHMENT31" value="0x8CFF" />
+    <constant name="GL_COLOR_ATTACHMENT4" value="0x8CE4" />
+    <constant name="GL_COLOR_ATTACHMENT5" value="0x8CE5" />
+    <constant name="GL_COLOR_ATTACHMENT6" value="0x8CE6" />
+    <constant name="GL_COLOR_ATTACHMENT7" value="0x8CE7" />
+    <constant name="GL_COLOR_ATTACHMENT8" value="0x8CE8" />
+    <constant name="GL_COLOR_ATTACHMENT9" value="0x8CE9" />
+    <constant name="GL_RENDERBUFFER" value="0x8D41" />
+    <constant name="GL_RENDERBUFFER_ALPHA_SIZE" value="0x8D53" />
+    <constant name="GL_RENDERBUFFER_BINDING" value="0x8CA7" />
+    <constant name="GL_RENDERBUFFER_BLUE_SIZE" value="0x8D52" />
+    <constant name="GL_RENDERBUFFER_DEPTH_SIZE" value="0x8D54" />
+    <constant name="GL_RENDERBUFFER_GREEN_SIZE" value="0x8D51" />
+    <constant name="GL_RENDERBUFFER_HEIGHT" value="0x8D43" />
+    <constant name="GL_RENDERBUFFER_INTERNAL_FORMAT" value="0x8D44" />
+    <constant name="GL_RENDERBUFFER_RED_SIZE" value="0x8D50" />
+    <constant name="GL_RENDERBUFFER_SAMPLES" value="0x8CAB" />
+    <constant name="GL_RENDERBUFFER_STENCIL_SIZE" value="0x8D55" />
+    <constant name="GL_RENDERBUFFER_WIDTH" value="0x8D42" />
+    <constant name="GL_DEPTH" value="0x1801" />
+    <constant name="GL_DEPTH24_STENCIL8" value="0x88F0" />
+    <constant name="GL_DEPTH32F_STENCIL8" value="0x8CAD" />
+    <constant name="GL_DEPTH_ATTACHMENT" value="0x8D00" />
+    <constant name="GL_DEPTH_BIAS" value="0x0D1F" />
+    <constant name="GL_DEPTH_BITS" value="0x0D56" />
+    <constant name="GL_DEPTH_BUFFER_BIT" value="0x00000100" />
+    <constant name="GL_DEPTH_CLAMP" value="0x864F" />
+    <constant name="GL_DEPTH_CLEAR_VALUE" value="0x0B73" />
+    <constant name="GL_DEPTH_COMPONENT" value="0x1902" />
+    <constant name="GL_DEPTH_COMPONENT16" value="0x81A5" />
+    <constant name="GL_DEPTH_COMPONENT24" value="0x81A6" />
+    <constant name="GL_DEPTH_COMPONENT32" value="0x81A7" />
+    <constant name="GL_DEPTH_COMPONENT32F" value="0x8CAC" />
+    <constant name="GL_DEPTH_FUNC" value="0x0B74" />
+    <constant name="GL_DEPTH_RANGE" value="0x0B70" />
+    <constant name="GL_DEPTH_SCALE" value="0x0D1E" />
+    <constant name="GL_DEPTH_STENCIL" value="0x84F9" />
+    <constant name="GL_DEPTH_STENCIL_ATTACHMENT" value="0x821A" />
+    <constant name="GL_DEPTH_TEST" value="0x0B71" />
+    <constant name="GL_DEPTH_TEXTURE_MODE" value="0x884B" />
+    <constant name="GL_DEPTH_WRITEMASK" value="0x0B72" />
+  </constants>
 </spec>

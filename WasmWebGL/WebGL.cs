@@ -1,18 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Numerics;
-using System.Runtime.InteropServices;
 using System.Text;
-using System;
 
 namespace WasmWebGL;
 
 public static partial class WebGL
 {
-    public static void glBufferData(int target, int size, List<float> data, int usage)
-    {
-        glBufferData(target, size, CollectionsMarshal.AsSpan(data), usage);
-    }
-
     public static void glBufferData(int target, int size, byte[] data, int usage)
     {
         glBufferData(target, size, data.AsSpan(), usage);
@@ -42,16 +35,12 @@ public static partial class WebGL
         }
     }
 
-    public static void glUniformMatrix4fv(int uniformLocation, float[] data, bool transpose)
-    {
-        glUniformMatrix4fv(uniformLocation, data.AsSpan(), transpose);
-    }
-
     public static void glUniformMatrix4fv(int uniformLocation, Span<float> data, bool transpose)
     {
         glUniformMatrix4fv(uniformLocation, ToJson(data), transpose);
     }
 
+    /// Looks like sending float[] arrays or Span<float> is not supported so quick hack is needed to just send JSON
     private static string ToJson<T>(Span<T> data)
     {
         var stringBuilder = new StringBuilder();

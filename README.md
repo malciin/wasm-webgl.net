@@ -28,4 +28,4 @@ See:  https://devblogs.microsoft.com/dotnet/use-net-7-from-any-javascript-app-in
 
 ### Note
 
-Its just a quick proof of concept, only some of webgl methods are binded.
+Its just a quick proof of concept, only some of webgl methods are binded, other things like textures would require adding proper definition to <a href="WasmWebGL/webgl.spec.xml">`webgl.spec.xml`</a>.

@@ -15,8 +15,9 @@ glViewport(0, 0, canvasWidth, canvasHeight);
 glClearColor(0, 0, 0, 1);
 glEnable(GL_DEPTH_TEST);
 
-//var vao = glGenVertexArrays();
-//glBindVertexArray(vao);
+// VAO could be also used but since its only single 3d model its not needed
+// var vao = glGenVertexArrays();
+// glBindVertexArray(vao);
 
 float[] vertices = {
     // https://en.wikipedia.org/wiki/Tetrahedron
@@ -116,21 +117,25 @@ glUniformMatrix4fv(
     glGetUniformLocation(shaderProgram, "perspective"),
     perspective);
 
-var time = DateTime.UtcNow;
+var loopStartTimestamp = DateTime.UtcNow;
 
 while (true)
 {
-    var result = Matrix4x4.CreateRotationY((float)DateTime.UtcNow.Subtract(time).TotalSeconds)
-        * Matrix4x4.CreateRotationX((float)DateTime.UtcNow.Subtract(time).TotalSeconds / 2.0f)
+    var secondsElapsed = (float)DateTime.UtcNow.Subtract(loopStartTimestamp).TotalSeconds;
+
+    var modelMatrix = Matrix4x4.CreateRotationY(secondsElapsed)
+        * Matrix4x4.CreateRotationX(secondsElapsed / 2.0f)
         * Matrix4x4.CreateTranslation(0, 0, -5f);
 
     glUniformMatrix4fv(
         glGetUniformLocation(shaderProgram, "model"),
-        result);
+        modelMatrix);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glDrawElements(GL_TRIANGLES, indices.Length, GL_UNSIGNED_BYTE, 0);
 
+    // Delay is needed to let JS do its job because otherwise page will freeze.
+    // If there is a better way to let the main thread to do necessary "js things" then DM me.
     await Task.Delay(1);
 }
 
